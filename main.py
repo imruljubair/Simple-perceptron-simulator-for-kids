@@ -1,4 +1,6 @@
-import numpy as np
+## Copyright 2018 Mohammad Imrul Jubair
+
+import random
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
@@ -23,7 +25,9 @@ class Perceptron:
     lernRate = 0.1
 
     def __init__(self, s):
-        self.weight = np.random.uniform(-1, 1, size=s)
+        self.weight = []
+        for i in range(s):
+            self.weight.append(random.uniform(-1,1))
 
     def predict(self, data):
         y = 0
@@ -43,7 +47,10 @@ class Perceptron:
 class Data:
 
     def __init__(self, num):
-        self.dataPoints = np.random.uniform(-100, 100, size=num)
+        self.dataPoints = []
+        for k in range(num):
+            self.dataPoints.append(random.uniform(-100,100))
+            
         self.trainData = []
 
         for i in range(len(self.dataPoints)):
@@ -109,9 +116,9 @@ def main():
     allWeights = []
 
     ax0.set_title('Being trained with initial weights:\n ('+str(format(percep.weight[0],'.2f'))+
-    ', '+ str(format(percep.weight[1],'.2f'))+', '
-    + str(format(percep.weight[2],'.2f'))+')'
-    , fontsize=10)
+							', '+ str(format(percep.weight[1],'.2f'))+', '
+								+ str(format(percep.weight[2],'.2f'))+')'
+								, fontsize=10)
     
     for k in range(0, numOfPoints):
          percep.training([dataset[k][0], dataset[k][1], biasValue], dataset[k][2])
@@ -153,9 +160,9 @@ def main():
             
     ax1.plot(x[-1],y[-1],'-')
     ax1.set_title('Trained with adjusted weights:\n ('+str(format(percep.weight[0],'.2f'))
-    +', '+ str(format(percep.weight[1],'.2f'))+', '
-    + str(format(percep.weight[2],'.2f'))+')'
-    , fontsize=10)
+													+', '+ str(format(percep.weight[1],'.2f'))+', '
+													+ str(format(percep.weight[2],'.2f'))+')'
+													, fontsize=10)
 
     plt.show()
     
