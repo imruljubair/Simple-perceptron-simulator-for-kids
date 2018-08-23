@@ -68,8 +68,6 @@ def activation(y):
 def f(x,y):
 	return 7*x-3*y+5
 
-def f_1(x):
-	return (7/3)*x+(5/3)
 
 def createdata(numOfPoints):
     dataset = []
@@ -92,7 +90,7 @@ def predictline(x, weights):
     return yp
 
 def update(i, x, y):
-    #print(i+1)
+    print(i+1)
     line1.set_data(x[i], y[i])
     return line1,
 
@@ -123,7 +121,7 @@ def main():
     allWeights = []
 
 	# Adding subtitle
-    ax0.set_title('Being trained with initial weights:\n ('+str(format(percep.weight[0],'.2f'))+
+    ax0.set_title('Being trained with initial weights: ('+str(format(percep.weight[0],'.2f'))+
 							', '+ str(format(percep.weight[1],'.2f'))+', '
 								+ str(format(percep.weight[2],'.2f'))+')'
 								, fontsize=10)
@@ -175,22 +173,23 @@ def main():
             ax1.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=3, mec='black')
             
     ax1.plot(x[-1],y[-1],'--', color='black')
-    
-    ax1.plot([xp1, xp2], [f_1(xp1),f_1(xp2)], '-', color='green')
  
     if cls==1:
         ax1.plot(inputData[0], inputData[1], 's', color='red', markersize=8, mec='black')
     else:
         ax1.plot(inputData[0], inputData[1], 's', color='yellow', markersize=8, mec='black')
     
-    ax1.set_title('Trained with adjusted weights:\n ('+str(format(percep.weight[0],'.2f'))
+    ax1.set_title('Trained with adjusted weights: ('+str(format(percep.weight[0],'.2f'))
 													+', '+ str(format(percep.weight[1],'.2f'))+', '
-													+ str(format(percep.weight[2],'.2f'))+')'
+													+ str(format(percep.weight[2],'.2f'))+')\n'
+													+ 'New point (' + str(format(inputData[0],'.2f'))+', '
+													+ str(format(inputData[1], '.2f'))
+													+ ') is predicted as class '+str(cls)
 													, fontsize=10)
 	
     
-    plt.show()
-    #ani.save('perceptron.gif', dpi=80, writer='imagemagick')
+    #plt.show()
+    ani.save('perceptron.gif', dpi=80, writer='imagemagick')
     
     
     
