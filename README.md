@@ -6,6 +6,5 @@ In the code, a linearly seperated dataset is created based on function f(x,y), i
 
 ![Alt text](https://github.com/imruljubair/Simple-perceptron-simulator-for-kids/blob/master/perceptron.gif)
 
-I give full credit to: https://youtu.be/XJ7HLz9VYz0 whcih gives me the basic of perceptron.
-
+I give full credit to: https://youtu.be/XJ7HLz9VYz0 which provides me the basic of perceptron.
 
