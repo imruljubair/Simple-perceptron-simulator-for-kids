@@ -19,7 +19,6 @@ fig.set_figwidth(12)
 
 line1, = ax0.plot([], [],'--', color='black')
 
-gv = 0
 
 class Perceptron:
     lernRate = 0.1
@@ -69,6 +68,9 @@ def activation(y):
 def f(x,y):
 	return 7*x-3*y+5
 
+def f_1(x):
+	return (7/3)*x+(5/3)
+
 def createdata(numOfPoints):
     dataset = []
     for i in range(0, numOfPoints):
@@ -90,45 +92,59 @@ def predictline(x, weights):
     return yp
 
 def update(i, x, y):
-    print(i+1)
+    #print(i+1)
     line1.set_data(x[i], y[i])
-    gv = i+1
     return line1,
 
 
 def main():
-    numOfPoints = 400
+	
+    numOfPoints = 400 #specify the number of datapoints for training 
+	
+	#uncomment the following line if you want to recreate the dataset
+    #createdata(numOfPoints) 
 
-    #createdata(numOfPoints)
-
-    with open('listfile.txt', 'r') as filehandle:
+	
+    with open('listfile.txt', 'r') as filehandle: #storing the dataset
         dataset = json.load(filehandle)
 
+	# Ploting the datapoints from the dataset:
+	
     for i in range(0, numOfPoints):
         if dataset[i][2] == 1:
             ax0.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=7, mec='black')
         else:
             ax0.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=7, mec='black')
 
-       
-    percep = Perceptron(3)
-    biasValue = 1
+    # Perceptron starts...
+    
+    percep = Perceptron(3) # perceptron with 3 weights (2 weights + 1 bias)
+    biasValue = 1 # default bias = 1
     allWeights = []
 
+	# Adding subtitle
     ax0.set_title('Being trained with initial weights:\n ('+str(format(percep.weight[0],'.2f'))+
 							', '+ str(format(percep.weight[1],'.2f'))+', '
 								+ str(format(percep.weight[2],'.2f'))+')'
 								, fontsize=10)
     
+    # Perceptron is trained:  
     for k in range(0, numOfPoints):
          percep.training([dataset[k][0], dataset[k][1], biasValue], dataset[k][2])
          allWeights.append([percep.weight[0], percep.weight[1], percep.weight[2]])
-
+         
 
     with open('weightfile.txt', 'w') as filehandle:
         json.dump(allWeights, filehandle)
 
+
+	# Unkwon data to be trained by perceptron:
+    inputData = [random.uniform(-100, 100), random.uniform(-100, 100), biasValue]
+    cls = percep.predict(inputData)
+    print('class: '+ str(cls))
     
+    
+    # Code for animation:    
     xp1 = -100
     xp2 = 100
     yp1 = predictline(xp1, allWeights)
@@ -158,7 +174,15 @@ def main():
         else:
             ax1.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=3, mec='black')
             
-    ax1.plot(x[-1],y[-1],'-')
+    ax1.plot(x[-1],y[-1],'--', color='black')
+    
+    ax1.plot([xp1, xp2], [f_1(xp1),f_1(xp2)], '-', color='green')
+ 
+    if cls==1:
+        ax1.plot(inputData[0], inputData[1], 's', color='red', markersize=8, mec='black')
+    else:
+        ax1.plot(inputData[0], inputData[1], 's', color='yellow', markersize=8, mec='black')
+    
     ax1.set_title('Trained with adjusted weights:\n ('+str(format(percep.weight[0],'.2f'))
 													+', '+ str(format(percep.weight[1],'.2f'))+', '
 													+ str(format(percep.weight[2],'.2f'))+')'
