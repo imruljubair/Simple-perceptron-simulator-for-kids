@@ -5,21 +5,21 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
 
+# Global initialization:
 fig = plt.figure()
 plt.suptitle('Perceptron Simulator')
-plt.subplots_adjust(wspace=0.5, top=0.8)
+plt.subplots_adjust(top=0.80)
 ax0 = fig.add_subplot(121)
 ax1 = fig.add_subplot(122)
 ax0.set_xlim(-100, 100)
 ax0.set_ylim(-100, 100)
 ax1.set_xlim(-100, 100)
 ax1.set_ylim(-100, 100)
-fig.set_figheight(6)
-fig.set_figwidth(12)
-
+fig.set_figheight(5)
+fig.set_figwidth(10)
 line1, = ax0.plot([], [],'--', color='black')
 
-
+# Classes:
 class Perceptron:
     lernRate = 0.1
 
@@ -59,26 +59,30 @@ class Data:
                 self.trainData = [self.dataPoints[0], self.dataPoints[1], 0]
 
 
+# very simple and silly activation function:
 def activation(y):
     if y > 1:
         return 1
     else:
         return 0
 
+
+# function of line that seperates the dataset into two classes:
 def f(x,y):
 	return 7*x-3*y+5
 
-
+# function for creating dataset:
 def createdata(numOfPoints):
     dataset = []
     for i in range(0, numOfPoints):
         d = Data(2)
         dataset.append(d.trainData)
 
-    with open('listfile.txt', 'w') as filehandle:
+    with open('dataset.txt', 'w') as filehandle:
         json.dump(dataset, filehandle)
 
 
+# function for predicting the seperating line guessed by the perceptron:
 def predictline(x, weights):
     yp = []
     for k in range(len(weights)):
@@ -89,6 +93,7 @@ def predictline(x, weights):
         yp.append(y)
     return yp
 
+# Function for animation:
 def update(i, x, y):
     print(i+1)
     line1.set_data(x[i], y[i])
@@ -103,7 +108,7 @@ def main():
     #createdata(numOfPoints) 
 
 	
-    with open('listfile.txt', 'r') as filehandle: #storing the dataset
+    with open('dataset.txt', 'r') as filehandle: #storing the dataset
         dataset = json.load(filehandle)
 
 	# Ploting the datapoints from the dataset:
@@ -188,8 +193,8 @@ def main():
 													, fontsize=10)
 	
     
-    #plt.show()
-    ani.save('perceptron.gif', dpi=80, writer='imagemagick')
+    plt.show()
+    #ani.save('perceptron.gif', dpi=50, writer='imagemagick')
     
     
     
