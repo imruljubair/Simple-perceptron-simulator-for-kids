@@ -4,6 +4,8 @@ This is one of my hobby projects. I have built a very simple perceptron that can
 
 In the code, a linearly seperated dataset is created based on function f(x,y), i.e. f(x,y)7x-3y+5=0, which seperates the data into two classes. Then the perceptron starts with random values of weights and bias which has no idea about the classes. Then it adjusts the values iteratively by correcting itself. Finally it comes up wih a decision and draws a line to seperate two classes.
 
-I give full credit to: https://youtu.be/XJ7HLz9VYz0
+![Alt text](/media/jubair/10545887-4ecd-4430-a889-436f18f4ac61/Codes/Simple-perceptron-simulator-for-kids/perceptron.gif?raw=true "Title")
+
+I give full credit to: https://youtu.be/XJ7HLz9VYz0 whcih gives me the basic of perceptron.
 
 

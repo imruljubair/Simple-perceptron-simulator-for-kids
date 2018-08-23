@@ -163,8 +163,11 @@ def main():
 													+', '+ str(format(percep.weight[1],'.2f'))+', '
 													+ str(format(percep.weight[2],'.2f'))+')'
 													, fontsize=10)
-
+	
+    
     plt.show()
+    #ani.save('perceptron.gif', dpi=80, writer='imagemagick')
+    
     
     
 
