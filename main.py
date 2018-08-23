@@ -1,28 +1,29 @@
-import matplotlib; matplotlib.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import json
 
 fig = plt.figure()
-ax = fig.add_subplot(121)
-ax1 = fig.add_subplot(1,2,2)
-ax.set_xlim(-100, 100)
-ax.set_ylim(-100, 100)
+plt.suptitle('Perceptron Simulator')
+plt.subplots_adjust(wspace=0.5, top=0.8)
+ax0 = fig.add_subplot(121)
+ax1 = fig.add_subplot(122)
+ax0.set_xlim(-100, 100)
+ax0.set_ylim(-100, 100)
 ax1.set_xlim(-100, 100)
 ax1.set_ylim(-100, 100)
-fig.set_figheight(5)
-fig.set_figwidth(10)
+fig.set_figheight(6)
+fig.set_figwidth(12)
 
-line1, = ax1.plot([], [],'--', color='black')
+line1, = ax0.plot([], [],'--', color='black')
+
+gv = 0
 
 class Perceptron:
     lernRate = 0.1
 
     def __init__(self, s):
         self.weight = np.random.uniform(-1, 1, size=s)
-        print("Initialized weights: " + str(self.weight[0]) + " and " + str(self.weight[1]))
-        print("Initialized bias: " + str(self.weight[2]))
 
     def predict(self, data):
         y = 0
@@ -84,6 +85,7 @@ def predictline(x, weights):
 def update(i, x, y):
     print(i+1)
     line1.set_data(x[i], y[i])
+    gv = i+1
     return line1,
 
 
@@ -97,20 +99,24 @@ def main():
 
     for i in range(0, numOfPoints):
         if dataset[i][2] == 1:
-            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=7, mec='black')
+            ax0.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=7, mec='black')
         else:
-            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=7, mec='black')
+            ax0.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=7, mec='black')
 
+       
     percep = Perceptron(3)
     biasValue = 1
     allWeights = []
+
+    ax0.set_title('Being trained with initial weights:\n ('+str(format(percep.weight[0],'.2f'))+
+    ', '+ str(format(percep.weight[1],'.2f'))+', '
+    + str(format(percep.weight[2],'.2f'))+')'
+    , fontsize=10)
     
     for k in range(0, numOfPoints):
          percep.training([dataset[k][0], dataset[k][1], biasValue], dataset[k][2])
          allWeights.append([percep.weight[0], percep.weight[1], percep.weight[2]])
 
-    print("Adjusted weights: " + str(percep.weight[0]) + " and " + str(percep.weight[1]))
-    print("Adjusted bias: " + str(percep.weight[2]))
 
     with open('weightfile.txt', 'w') as filehandle:
         json.dump(allWeights, filehandle)
@@ -136,16 +142,20 @@ def main():
         guess = percep.predict([dataset[i][0], dataset[i][1], biasValue])
     
         if dataset[i][2] == 1:
-            ax.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=7, mec='black')
+            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=7, mec='black')
         else:
-            ax.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=7, mec='black')
+            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=7, mec='black')
             
         if guess == 1:
-            ax.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=3, mec='black')
+            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='red', markersize=3, mec='black')
         else:
-            ax.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=3, mec='black')
+            ax1.plot(dataset[i][0], dataset[i][1], 'o', color='yellow', markersize=3, mec='black')
             
-    ax.plot(x[-1],y[-1],'-')
+    ax1.plot(x[-1],y[-1],'-')
+    ax1.set_title('Trained with adjusted weights:\n ('+str(format(percep.weight[0],'.2f'))
+    +', '+ str(format(percep.weight[1],'.2f'))+', '
+    + str(format(percep.weight[2],'.2f'))+')'
+    , fontsize=10)
 
     plt.show()
     
