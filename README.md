@@ -1,4 +1,4 @@
-# Simple-perceptron-simulator-for-kids
+# Simple perceptron simulator for kids
 
 This is one of my hobby projects. I have built a very simple perceptron that can classify linearly seperable data. It is built from the scratch, even numpy has not been used. It helped me to understand how perceptron really works. I used matplotlib animation to render the steps of learning.
 
